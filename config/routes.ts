@@ -12,15 +12,10 @@
  */
 export default [
   {
-    path: '/user',
+    name: 'login',
+    path: '/login',
     layout: false,
-    routes: [
-      {
-        name: 'login',
-        path: '/login',
-        component: './Login',
-      },
-    ],
+    component: './Login',
   },
   {
     name: '项目管理',

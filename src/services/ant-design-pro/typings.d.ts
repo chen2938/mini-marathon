@@ -4,9 +4,6 @@
 declare namespace API {
   type CurrentUser = {
     name?: string;
-    
-    userid?: string;
-   
   };
 
   type LoginResult = {

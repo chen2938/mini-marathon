@@ -109,12 +109,7 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.updateForm.ruleName.nameLabel"
-          defaultMessage="Rule name"
-        />
-      ),
+      title: '规则名称',
       dataIndex: 'name',
       tip: 'The rule name is the unique key',
       render: (dom, entity) => {

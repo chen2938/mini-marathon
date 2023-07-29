@@ -6,8 +6,7 @@ import { AvatarDropdown, AvatarName } from './components/RightContent/AvatarDrop
 
 import { errorConfig } from './requestErrorConfig';
 import { getCurrentUser } from './pages/Login/api';
-const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
+const loginPath = '/login';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -17,7 +16,7 @@ export async function getInitialState(): Promise<{
   currentUser?: API.CurrentUser;
   loading?: boolean;
 }> {
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = () => {
     try {
       const data = getCurrentUser();
       return data;
@@ -29,7 +28,7 @@ export async function getInitialState(): Promise<{
   // 如果不是登录页面，获取并返回用户信息
   const { location } = history;
   if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+    const currentUser = fetchUserInfo();
     return {
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
@@ -46,6 +45,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     actionsRender: () => [<div />],
     avatarProps: {
+    
       src: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
       title: <AvatarName />,
       render: (_, avatarChildren) => {
