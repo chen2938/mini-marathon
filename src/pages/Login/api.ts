@@ -9,8 +9,8 @@ export function getCurrentUser() {
 }
 
 /** 退出登录接口 POST /api/login/outLogin */
-export async function outLogin(options?: { [key: string]: any }) {
-  await request<Record<string, any>>('/api/login/outLogin', {
+export async function outLogin() {
+  await request<Record<string, any>>('/login/outLogin', {
     method: 'POST',
   });
   localStorage.setItem('user', '');
@@ -18,7 +18,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams) {
-  const res = await request<API.LoginResult>('/api/login/account', {
+  const res = await request<API.LoginResult>('/login/account', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

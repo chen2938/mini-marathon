@@ -45,7 +45,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     actionsRender: () => [<div />],
     avatarProps: {
-    
       src: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
       title: <AvatarName />,
       render: (_, avatarChildren) => {
@@ -98,5 +97,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {
+  baseURL: '/api',
+  withCredentials: true,
+
   ...errorConfig,
 };
