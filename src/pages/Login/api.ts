@@ -1,12 +1,16 @@
 import { request } from '@umijs/max';
 
-export type UserInfo = {
-  username: string;
-};
-
 /** 获取当前的用户 GET /api/currentUser */
-export function getCurrentUser() {
-  return localStorage.getItem('userInfo');
+export async function currentUser(options?: { [key: string]: any }) {
+  return request<{
+    data: API.CurrentUser;
+  }>('/api/currentUser', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+export function getCurrentUser(): API.CurrentUser | {}  {
+  return JSON.parse(localStorage.getItem('user') ?? '{}');
 }
 
 /** 退出登录接口 POST /api/login/outLogin */

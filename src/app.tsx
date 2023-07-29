@@ -5,6 +5,7 @@ import defaultSettings from '../config/defaultSettings';
 import { AvatarDropdown, AvatarName } from './components/RightContent/AvatarDropdown';
 
 import { errorConfig } from './requestErrorConfig';
+import { getCurrentUser } from './pages/Login/api';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -15,14 +16,11 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
-      return msg.data;
+      const data = getCurrentUser();
+      return data;
     } catch (error) {
       history.push(loginPath);
     }
@@ -33,24 +31,22 @@ export async function getInitialState(): Promise<{
   if (location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
-      fetchUserInfo,
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
   // 如果是登录界面则什么都不vi xn
   return {
-    fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     actionsRender: () => [<div />],
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
