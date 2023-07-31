@@ -86,7 +86,7 @@ let Content = (props: IProps) => {
         columns={[
           {
             title: '内容名称',
-            dataIndex: 'name',
+            dataIndex: 'contentName',
           },
           {
             title: '天气',

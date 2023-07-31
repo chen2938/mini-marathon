@@ -7,10 +7,13 @@ export async function listContent(params: {
   /** 页面的容量 */
   pageSize?: number;
 }) {
-  return request<ContentListItem[]>('/contents', {
+  const res = await request<{
+    records: ContentListItem[];
+  }>('/pages/contents', {
     method: 'GET',
-    params,
+    params: { ...params, size: 9999 },
   });
+  return res.records;
 }
 
 export async function updateContent(params: ContentListItem) {

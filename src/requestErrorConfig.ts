@@ -20,10 +20,11 @@ export const errorConfig: RequestConfig = {
   errorConfig: {
     // 错误接收及处理
     errorHandler: (error: any) => {
+      console.log({ error });
       notification.open({
         type: 'error',
         description: error.desc,
-        message: error.data,
+        message: error.desc,
       });
     },
   },

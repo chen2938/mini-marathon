@@ -16,7 +16,7 @@ export type ContentListItem = {
    */
   createTime: number;
   enterpriseWeChatHookKeys: string[];
-  name: string;
+  contentName: string;
   /**
    * ID，唯一标识
    */

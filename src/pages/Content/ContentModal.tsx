@@ -1,16 +1,16 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { useRequest } from 'ahooks';
+import { useDebounceFn, useRequest } from 'ahooks';
 import {
-    Button,
-    DatePicker,
-    Form,
-    Input,
-    Modal,
-    Radio,
-    Select,
-    Space,
-    Switch,
-    message,
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Radio,
+  Select,
+  Space,
+  Switch,
+  message,
 } from 'antd';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
@@ -31,6 +31,7 @@ export const defaultContent: Partial<ContentListItem> = {
   containMotto: true,
   containWeather: true,
   briefing: '',
+  contentName: '',
   enterpriseWeChatHookKeys: [''],
   scheduleType: 0,
   scheduledPushTime: Date.now(),
@@ -77,6 +78,12 @@ let ContentModal = (props: IProps) => {
     },
   });
 
+  const { run: runSetCron } = useDebounceFn(
+    () => form.setFieldValue('scheduledPushCron', fnRef.current?.getValue()),
+    {
+      wait: 100,
+    },
+  );
   //数据转换
 
   //逻辑处理函数
@@ -112,7 +119,7 @@ let ContentModal = (props: IProps) => {
       >
         <Form.Item
           label="名称"
-          name="name"
+          name="contentName"
           rules={[
             {
               required: true,
@@ -140,8 +147,11 @@ let ContentModal = (props: IProps) => {
           {(form) => {
             const scheduleType = form.getFieldValue('scheduleType');
             const cronValue = form.getFieldValue('scheduledPushCron');
-            const setCronValue = (value = defaultContent.scheduledPushCron) =>
+            const setCronValue = (value = defaultContent.scheduledPushCron) => {
+              console.log('set', value);
               form.setFieldValue('scheduledPushCron', value);
+            };
+            console.log({ cronValue });
             return scheduleType === 0 ? (
               <Form.Item
                 label="推送时间"
@@ -157,25 +167,23 @@ let ContentModal = (props: IProps) => {
               <Form.Item label="推送设置" name="scheduledPushCron">
                 <Space direction="vertical">
                   {cronValue}
-                  <CronComponent
-                    getCronFns={(data) => (fnRef.current = data)}
-                    footer={
-                      <Space>
-                        <Button onClick={() => setCronValue(defaultContent.scheduledPushCron)}>
-                          重置
-                        </Button>
-                        <Button
-                          type="primary"
-                          onClick={() => {
-                            setCronValue(fnRef.current?.getValue());
-                          }}
-                        >
-                          生成
-                        </Button>
-                      </Space>
-                    }
-                    value={cronValue}
-                  />
+                  <div
+                    onChange={(e) => e.stopPropagation()}
+                    onClick={() => runSetCron()}
+                    onInput={() => runSetCron()}
+                  >
+                    <CronComponent
+                      getCronFns={(data) => (fnRef.current = data)}
+                      footer={
+                        <Space>
+                          <Button onClick={() => setCronValue(defaultContent.scheduledPushCron)}>
+                            重置
+                          </Button>
+                        </Space>
+                      }
+                      value={cronValue}
+                    />
+                  </div>
                 </Space>
               </Form.Item>
             );
