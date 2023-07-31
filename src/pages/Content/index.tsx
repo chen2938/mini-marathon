@@ -32,7 +32,7 @@ let Content = (props: IProps) => {
   //变量声明、解构
   const {} = props;
   //组件状态
-  const [modalState, setModalState] = useState(ContentModalState.ADD);
+  const [modalState, setModalState] = useState(ContentModalState.CLOSE);
   const [modalFormData, setModalFormData] = useState<Partial<ContentListItem>>(defaultContent);
 
   //网络IO
